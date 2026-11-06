@@ -542,9 +542,23 @@
             </div>
         </div>
 
-        <!-- ABA 5: PAINEL DE ADMIN (APENAS ADMINISTRADOR) -->
+        <!-- ABA 5: PAINEL DE ADMIN (PROTEGIDO POR PALAVRA-PASSE) -->
         <div id="tab-admin" class="tab-content">
-            <div class="card" style="border: 1px solid var(--yellow-warning);">
+            
+            <!-- BLUK DE LOGIN DO ADMIN -->
+            <div id="adminAuthBlock" class="card" style="border: 1px solid var(--yellow-warning); text-align: center;">
+                <h2 style="color: var(--yellow-warning);">🔒 Acesso Restrito</h2>
+                <p style="font-size: 0.8rem; color: var(--hint-color); margin-bottom: 12px;">
+                    Insira a palavra-passe de Administrador para aceder.
+                </p>
+                <div class="form-group">
+                    <input type="password" id="inputAdminPass" placeholder="Palavra-passe Secreta">
+                </div>
+                <button class="btn btn-secondary" onclick="autenticarAdmin()">Entrar no Painel</button>
+            </div>
+
+            <!-- PAINEL DE PUBLICAÇÃO DO ADMIN -->
+            <div id="adminContentBlock" class="card" style="border: 1px solid var(--yellow-warning); display: none;">
                 <h2 style="color: var(--yellow-warning);">⚡ Painel de Administrador</h2>
                 <p style="font-size: 0.8rem; color: var(--hint-color); margin-bottom: 12px;">
                     Publique oportunidades para todos os membros que usam a Web App.
@@ -581,6 +595,7 @@
 
                 <button class="btn btn-green" onclick="publicarOportunidadeAdmin()">🚀 Publicar Oportunidade VIP</button>
             </div>
+
         </div>
 
     </div>
@@ -603,26 +618,22 @@
             <div class="nav-icon">📋</div>
             <div>Diário</div>
         </div>
-        <div id="navAdminItem" class="nav-item" data-tab="admin" style="display: none; color: var(--yellow-warning);">
+        <div class="nav-item" data-tab="admin" style="color: var(--yellow-warning);">
             <div class="nav-icon">👑</div>
             <div>Admin</div>
         </div>
     </nav>
 
     <script>
-        // ID do Administrador no Telegram (substituir se quiser restringir o acesso)
-        const ADMIN_TELEGRAM_IDS = []; 
+        // DEFINA A SUA PALAVRA-PASSE SECRETA AQUI
+        const ADMIN_PASSWORD = "300%"; 
 
         let tg = window.Telegram ? window.Telegram.WebApp : null;
-        let userId = null;
-        let isAdmin = false;
+        let isAdminAutenticado = false;
 
         if(tg) {
             tg.expand();
             tg.ready();
-            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                userId = tg.initDataUnsafe.user.id;
-            }
         }
 
         let estado = {
@@ -647,10 +658,16 @@
 
         let chart;
 
-        function verificarPermissaoAdmin() {
-            if (ADMIN_TELEGRAM_IDS.length === 0 || (userId && ADMIN_TELEGRAM_IDS.includes(userId))) {
-                isAdmin = true;
-                document.getElementById('navAdminItem').style.display = 'flex';
+        function autenticarAdmin() {
+            const senha = document.getElementById('inputAdminPass').value;
+            if (senha === ADMIN_PASSWORD) {
+                isAdminAutenticado = true;
+                document.getElementById('adminAuthBlock').style.display = 'none';
+                document.getElementById('adminContentBlock').style.display = 'block';
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            } else {
+                alert("Palavra-passe incorreta!");
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
             }
         }
 
@@ -827,7 +844,6 @@
                 }, {passive: false});
             });
 
-            verificarPermissaoAdmin();
             carregarDados();
         });
 
