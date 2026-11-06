@@ -88,3 +88,801 @@
         .grid-3 {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .stat-box {
+            background-color: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-box.green { border-left: 4px solid var(--green-success); }
+        .stat-box.red { border-left: 4px solid var(--red-danger); }
+        .stat-box.blue { border-left: 4px solid var(--accent-color); }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--hint-color);
+            margin-bottom: 4px;
+        }
+
+        .stat-val {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .stake-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stake-pct {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--hint-color);
+        }
+
+        .stake-val {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-top: 2px;
+            color: var(--accent-color);
+        }
+
+        .alert-banner {
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-banner.success { background-color: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid var(--green-success); }
+        .alert-banner.danger { background-color: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid var(--red-danger); }
+        .alert-banner.info { background-color: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid var(--accent-color); }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--hint-color);
+            margin-bottom: 4px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.2);
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            background-color: var(--accent-color);
+            color: var(--accent-text);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn:active {
+            opacity: 0.8;
+        }
+
+        .btn-green { background-color: var(--green-success); color: #fff; }
+        .btn-red { background-color: var(--red-danger); color: #fff; }
+        .btn-secondary { background-color: rgba(255, 255, 255, 0.1); color: var(--text-color); }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background-color: var(--card-bg);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--hint-color);
+            text-decoration: none;
+            font-size: 0.7rem;
+            width: 25%;
+            height: 100%;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 2px;
+        }
+
+        .history-list {
+            list-style: none;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            color: var(--hint-color);
+            font-weight: 600;
+        }
+
+        .toggle-container {
+            display: flex;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 4px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--hint-color);
+        }
+
+        .toggle-btn.active {
+            background-color: var(--accent-color);
+            color: var(--accent-text);
+            font-weight: 600;
+        }
+
+        .result-box {
+            background-color: rgba(34, 197, 94, 0.1);
+            border: 1px dashed var(--green-success);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        .result-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green-success);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- BANNER DE ALERTA DIÁRIO -->
+        <div id="statusAlert" class="alert-banner info">
+            <span>🛡️ Sessão Ativa: Mantenha a disciplina e siga o plano.</span>
+        </div>
+
+        <!-- ABA 1: PAINEL PRINCIPAL -->
+        <div id="tab-dashboard" class="tab-content active">
+            
+            <div class="card banca-display">
+                <div class="stat-label">BANCA ATUAL</div>
+                <div id="bancaAtual" class="banca-valor">100.00 €</div>
+                <div class="grid-2" style="margin-top: 15px;">
+                    <div class="stat-box green">
+                        <div class="stat-label">META DA SESSÃO (<span class="meta-pct-label">10</span>%)</div>
+                        <div id="valMeta" class="stat-val">+10.00 €</div>
+                    </div>
+                    <div class="stat-box red">
+                        <div class="stat-label">STOP LOSS (<span class="stop-pct-label">20</span>%)</div>
+                        <div id="valStop" class="stat-val">-20.00 €</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Configurações da Banca</h2>
+                <div class="form-group">
+                    <label>Banca Inicial (€)</label>
+                    <input type="number" id="inputBancaInicial" value="100" step="10" min="1">
+                </div>
+                <div class="grid-2" style="margin-bottom: 10px;">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Meta Diária (%)</label>
+                        <input type="number" id="inputMetaPct" value="10" step="1" min="1" max="100">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Stop Loss (%)</label>
+                        <input type="number" id="inputStopPct" value="20" step="1" min="1" max="100">
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="salvarParametros()" style="padding: 10px; font-size: 0.85rem;">Guardar Configurações</button>
+            </div>
+
+            <div class="card">
+                <h2>Calculadora de Níveis (Stakes)</h2>
+                <div class="grid-3">
+                    <div class="stake-card">
+                        <div class="stake-pct">NÍVEL 1 (2%)</div>
+                        <div id="stakeN1" class="stake-val">2.00 €</div>
+                    </div>
+                    <div class="stake-card">
+                        <div class="stake-pct">NÍVEL 2 (4%)</div>
+                        <div id="stakeN2" class="stake-val">4.00 €</div>
+                    </div>
+                    <div class="stake-card">
+                        <div class="stake-pct">NÍVEL 3 (7%)</div>
+                        <div id="stakeN3" class="stake-val">7.00 €</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Registar Nova Aposta</h2>
+                <div class="form-group">
+                    <label>Nível de Stake</label>
+                    <select id="selectNivel" onchange="atualizarValorSugerido()">
+                        <option value="0.02">Nível 1 (2%)</option>
+                        <option value="0.04">Nível 2 (4%)</option>
+                        <option value="0.07">Nível 3 (7%)</option>
+                    </select>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Valor (€)</label>
+                        <input type="number" id="inputValor" placeholder="2.00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Odd de Entrada</label>
+                        <input type="number" id="inputOdd" placeholder="1.85" step="0.01">
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <button class="btn btn-green" onclick="registrarAposta('GREEN')">GREEN 🟢</button>
+                    <button class="btn btn-red" onclick="registrarAposta('RED')">RED 🔴</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Gráfico de Evolução</h2>
+                <canvas id="chartEvolucao" height="180"></canvas>
+            </div>
+
+            <div class="card">
+                <button class="btn btn-secondary" onclick="reiniciarSessao()">Reiniciar Banca / Novo Dia</button>
+            </div>
+
+        </div>
+
+        <!-- ABA 2: CALCULADORA DE SAÍDA (EXIT ODDS) -->
+        <div id="tab-calc" class="tab-content">
+            <div class="card">
+                <h2>Calculadora de Odd de Saída</h2>
+                <p style="font-size: 0.8rem; color: var(--hint-color); margin-bottom: 12px;">
+                    Calcule a Odd necessária para encerrar a aposta (Cashout / Lay) e garantir o seu lucro pretendido.
+                </p>
+
+                <div class="form-group">
+                    <label>Stake de Entrada (€)</label>
+                    <input type="number" id="calcStake" placeholder="2.00" step="0.01" oninput="calcularExitOdd()">
+                </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Odd de Entrada</label>
+                        <input type="number" id="calcOddEntrada" placeholder="2.00" step="0.01" oninput="calcularExitOdd()">
+                    </div>
+                    <div class="form-group">
+                        <label>Lucro Pretendido (%)</label>
+                        <input type="number" id="calcLucroPct" value="5" step="0.5" min="0.1" oninput="calcularExitOdd()">
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="stat-label">ODD DE SAÍDA NECESSÁRIA (FECHO)</div>
+                    <div id="resOddSaida" class="result-val">---</div>
+                    <div id="resDetalhe" style="font-size: 0.8rem; color: var(--hint-color); margin-top: 6px;">
+                        Insira os valores para ver o cálculo.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 3: DIÁRIO DE APOSTAS -->
+        <div id="tab-diario" class="tab-content">
+            <div class="card">
+                <h2>Resumo da Sessão</h2>
+                <div class="grid-3">
+                    <div class="stat-box blue">
+                        <div class="stat-label">APOSTAS</div>
+                        <div id="totalApostas" class="stat-val">0</div>
+                    </div>
+                    <div class="stat-box green">
+                        <div class="stat-label">GREENS</div>
+                        <div id="totalGreens" class="stat-val">0</div>
+                    </div>
+                    <div class="stat-box red">
+                        <div class="stat-label">REDS</div>
+                        <div id="totalReds" class="stat-val">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Histórico de Apostas</h2>
+                <ul id="listaHistorico" class="history-list">
+                    <li style="text-align: center; color: var(--hint-color); padding: 10px;">Nenhuma aposta registada hoje.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ABA 4: PROJEÇÃO 30 DIAS -->
+        <div id="tab-projecao" class="tab-content">
+            <div class="card">
+                <h2>Simulador de 30 Dias</h2>
+                
+                <div class="toggle-container">
+                    <div id="toggleComposto" class="toggle-btn active" onclick="setModoJuros(true)">Juros Compostos</div>
+                    <div id="toggleSimples" class="toggle-btn" onclick="setModoJuros(false)">Lucro Fixo</div>
+                </div>
+
+                <p style="font-size: 0.8rem; color: var(--hint-color); margin-bottom: 12px;" id="descSimulador">
+                    Cálculo acumulado reinvestindo o lucro com meta de <b id="metaSimuladorText">10%</b>/dia.
+                </p>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dia</th>
+                                <th>Banca Inicial</th>
+                                <th>Lucro (<span class="meta-pct-label">10</span>%)</th>
+                                <th>Banca Final</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaProjecao">
+                            <!-- Preenchido dinamicamente via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- NAVEGAÇÃO INFERIOR -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" data-tab="dashboard">
+            <div class="nav-icon">📊</div>
+            <div>Painel</div>
+        </div>
+        <div class="nav-item" data-tab="calc">
+            <div class="nav-icon">🧮</div>
+            <div>Calculadora</div>
+        </div>
+        <div class="nav-item" data-tab="diario">
+            <div class="nav-icon">📋</div>
+            <div>Diário</div>
+        </div>
+        <div class="nav-item" data-tab="projecao">
+            <div class="nav-icon">🚀</div>
+            <div>30 Dias</div>
+        </div>
+    </nav>
+
+    <script>
+        // Inicializar Telegram WebApp
+        let tg = window.Telegram ? window.Telegram.WebApp : null;
+        if(tg) {
+            tg.expand();
+            tg.ready();
+        }
+
+        // Estado da Aplicação com valor inicial de 100€
+        let estado = {
+            bancaInicialDia: 100,
+            bancaAtual: 100,
+            metaPct: 10,
+            stopPct: 20,
+            historico: [],
+            jurosCompostos: true
+        };
+
+        let chart;
+
+        // Função de troca de abas otimizada para Telegram
+        function ativarAba(tabName) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(el => {
+                el.classList.remove('active');
+            });
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(el => {
+                el.classList.remove('active');
+            });
+
+            const targetContent = document.getElementById('tab-' + tabName);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+
+            const targetNav = document.querySelector(`.nav-item[data-tab="${tabName}"]`);
+            if (targetNav) {
+                targetNav.classList.add('active');
+            }
+
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+
+            if (tabName === 'projecao') {
+                gerarTabelaProjecao();
+            } else if (tabName === 'calc') {
+                calcularExitOdd();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                const target = item.getAttribute('data-tab');
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    ativarAba(target);
+                });
+                item.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    ativarAba(target);
+                }, {passive: false});
+            });
+
+            carregarDados();
+        });
+
+        // Calculadora de Exit Odds (5% ou personalizado)
+        function calcularExitOdd() {
+            const stake = parseFloat(document.getElementById('calcStake').value) || parseFloat(document.getElementById('inputValor').value) || 2;
+            const oddEntrada = parseFloat(document.getElementById('calcOddEntrada').value) || 2.0;
+            const lucroPct = parseFloat(document.getElementById('calcLucroPct').value) || 5;
+
+            if (stake <= 0 || oddEntrada <= 1) {
+                document.getElementById('resOddSaida').innerText = '---';
+                document.getElementById('resDetalhe').innerText = 'Insira uma Stake e Odd de entrada válidas.';
+                return;
+            }
+
+            const lucroAlvoEur = stake * (lucroPct / 100);
+            const retornoAlvoEur = stake + lucroAlvoEur;
+            const oddSaida = (stake * oddEntrada) / retornoAlvoEur;
+
+            if (oddSaida <= 1) {
+                document.getElementById('resOddSaida').innerText = 'N/A';
+                document.getElementById('resDetalhe').innerText = 'Meta de lucro inviável para esta Odd de entrada.';
+                return;
+            }
+
+            document.getElementById('resOddSaida').innerText = oddSaida.toFixed(2);
+            document.getElementById('resDetalhe').innerHTML = `
+                Lucro Garantido: <b>+${lucroAlvoEur.toFixed(2)} €</b> (${lucroPct}%)<br>
+                Feche a aposta / faça Lay quando a Odd cair para <b>${oddSaida.toFixed(2)}</b>.
+            `;
+        }
+
+        function carregarDados() {
+            const saved = localStorage.getItem('gestao_banca_data');
+            if (saved) {
+                try {
+                    estado = JSON.parse(saved);
+                    if (!estado.bancaInicialDia) estado.bancaInicialDia = 100;
+                    if (!estado.metaPct) estado.metaPct = 10;
+                    if (!estado.stopPct) estado.stopPct = 20;
+                } catch(e) {
+                    console.error("Erro ao carregar dados", e);
+                }
+            }
+            
+            document.getElementById('inputBancaInicial').value = estado.bancaInicialDia;
+            document.getElementById('inputMetaPct').value = estado.metaPct;
+            document.getElementById('inputStopPct').value = estado.stopPct;
+
+            atualizarInterface();
+            inicializarGrafico();
+        }
+
+        function salvarDados() {
+            localStorage.setItem('gestao_banca_data', JSON.stringify(estado));
+        }
+
+        function salvarParametros() {
+            const novaBancaInicial = parseFloat(document.getElementById('inputBancaInicial').value);
+            const meta = parseFloat(document.getElementById('inputMetaPct').value);
+            const stop = parseFloat(document.getElementById('inputStopPct').value);
+
+            if (novaBancaInicial > 0 && estado.historico.length === 0) {
+                estado.bancaInicialDia = novaBancaInicial;
+                estado.bancaAtual = novaBancaInicial;
+            } else if (novaBancaInicial > 0) {
+                const diff = novaBancaInicial - estado.bancaInicialDia;
+                estado.bancaInicialDia = novaBancaInicial;
+                estado.bancaAtual += diff;
+            }
+
+            if (meta > 0) estado.metaPct = meta;
+            if (stop > 0) estado.stopPct = stop;
+
+            salvarDados();
+            atualizarInterface();
+            atualizarGrafico();
+
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+        }
+
+        function atualizarInterface() {
+            document.querySelectorAll('.meta-pct-label').forEach(el => el.innerText = estado.metaPct);
+            document.querySelectorAll('.stop-pct-label').forEach(el => el.innerText = estado.stopPct);
+
+            const valorMeta = estado.bancaInicialDia * (estado.metaPct / 100);
+            const valorStop = estado.bancaInicialDia * (estado.stopPct / 100);
+
+            document.getElementById('bancaAtual').innerText = estado.bancaAtual.toFixed(2) + ' €';
+            document.getElementById('valMeta').innerText = '+' + valorMeta.toFixed(2) + ' €';
+            document.getElementById('valStop').innerText = '-' + valorStop.toFixed(2) + ' €';
+
+            document.getElementById('stakeN1').innerText = (estado.bancaAtual * 0.02).toFixed(2) + ' €';
+            document.getElementById('stakeN2').innerText = (estado.bancaAtual * 0.04).toFixed(2) + ' €';
+            document.getElementById('stakeN3').innerText = (estado.bancaAtual * 0.07).toFixed(2) + ' €';
+
+            atualizarValorSugerido();
+            verificarAlertas(valorMeta, valorStop);
+            atualizarDiario();
+        }
+
+        function atualizarValorSugerido() {
+            const pct = parseFloat(document.getElementById('selectNivel').value);
+            const val = (estado.bancaAtual * pct).toFixed(2);
+            document.getElementById('inputValor').value = val;
+            document.getElementById('calcStake').value = val;
+        }
+
+        function verificarAlertas(valorMeta, valorStop) {
+            const lucroDia = estado.bancaAtual - estado.bancaInicialDia;
+            const alertBox = document.getElementById('statusAlert');
+
+            if (lucroDia >= valorMeta) {
+                alertBox.className = 'alert-banner success';
+                alertBox.innerHTML = '<span>🏆 <b>META ALCANÇADA!</b> Lucro de +' + lucroDia.toFixed(2) + '€ ganho hoje. Pare e proteja o capital!</span>';
+            } else if (lucroDia <= -valorStop) {
+                alertBox.className = 'alert-banner danger';
+                alertBox.innerHTML = '<span>🛑 <b>STOP LOSS ATIVADO!</b> Perda de ' + lucroDia.toFixed(2) + '€. Pare de apostar hoje!</span>';
+            } else {
+                alertBox.className = 'alert-banner info';
+                alertBox.innerHTML = '<span>🛡️ Sessão Ativa: Mantenha a disciplina e siga o plano.</span>';
+            }
+        }
+
+        function registrarAposta(tipo) {
+            const valor = parseFloat(document.getElementById('inputValor').value);
+            const odd = parseFloat(document.getElementById('inputOdd').value) || 1.0;
+
+            if (isNaN(valor) || valor <= 0) {
+                alert("Insira um valor válido de aposta.");
+                return;
+            }
+
+            let resultadoEur = 0;
+            if (tipo === 'GREEN') {
+                resultadoEur = valor * (odd - 1);
+            } else {
+                resultadoEur = -valor;
+            }
+
+            estado.bancaAtual += resultadoEur;
+            
+            estado.historico.unshift({
+                hora: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                tipo: tipo,
+                valor: valor,
+                odd: odd,
+                resultado: resultadoEur,
+                bancaResultante: estado.bancaAtual
+            });
+
+            salvarDados();
+            atualizarInterface();
+            atualizarGrafico();
+
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred(tipo === 'GREEN' ? 'success' : 'warning');
+            }
+        }
+
+        function atualizarDiario() {
+            const total = estado.historico.length;
+            const greens = estado.historico.filter(h => h.tipo === 'GREEN').length;
+            const reds = estado.historico.filter(h => h.tipo === 'RED').length;
+
+            document.getElementById('totalApostas').innerText = total;
+            document.getElementById('totalGreens').innerText = greens;
+            document.getElementById('totalReds').innerText = reds;
+
+            const lista = document.getElementById('listaHistorico');
+            if (total === 0) {
+                lista.innerHTML = '<li style="text-align: center; color: var(--hint-color); padding: 10px;">Nenhuma aposta registada hoje.</li>';
+                return;
+            }
+
+            lista.innerHTML = estado.historico.map(h => `
+                <li class="history-item">
+                    <div>
+                        <b style="color: ${h.tipo === 'GREEN' ? 'var(--green-success)' : 'var(--red-danger)'}">${h.tipo}</b> 
+                        <span style="font-size:0.8rem; color: var(--hint-color);">(${h.hora}) @${h.odd}</span>
+                    </div>
+                    <div style="font-weight:700; color: ${h.resultado >= 0 ? 'var(--green-success)' : 'var(--red-danger)'}">
+                        ${h.resultado >= 0 ? '+' : ''}${h.resultado.toFixed(2)} €
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        function setModoJuros(composto) {
+            estado.jurosCompostos = composto;
+            document.getElementById('toggleComposto').className = composto ? 'toggle-btn active' : 'toggle-btn';
+            document.getElementById('toggleSimples').className = !composto ? 'toggle-btn active' : 'toggle-btn';
+            
+            document.getElementById('descSimulador').innerHTML = composto 
+                ? `Cálculo acumulado reinvestindo o lucro com meta de <b>${estado.metaPct}%</b>/dia.`
+                : `Cálculo mantendo a banca base e retirando o lucro de <b>${estado.metaPct}%</b>/dia.`;
+
+            gerarTabelaProjecao();
+        }
+
+        function gerarTabelaProjecao() {
+            const tbody = document.getElementById('tabelaProjecao');
+            document.getElementById('metaSimuladorText').innerText = estado.metaPct + '%';
+            
+            let html = '';
+            let banca = estado.bancaAtual;
+            const metaDecimal = estado.metaPct / 100;
+
+            for (let dia = 1; dia <= 30; dia++) {
+                let lucro = banca * metaDecimal;
+                let bancaFinal = estado.jurosCompostos ? (banca + lucro) : banca;
+
+                html += `
+                    <tr>
+                        <td><b>${dia}</b></td>
+                        <td>${banca.toFixed(2)} €</td>
+                        <td style="color: var(--green-success); font-weight: 600;">+${lucro.toFixed(2)} €</td>
+                        <td style="font-weight: 700;">${(estado.jurosCompostos ? bancaFinal : banca + (lucro * dia)).toFixed(2)} €</td>
+                    </tr>
+                `;
+
+                if (estado.jurosCompostos) {
+                    banca = bancaFinal;
+                }
+            }
+
+            tbody.innerHTML = html;
+        }
+
+        function reiniciarSessao() {
+            if (confirm("Tem certeza que deseja atualizar a Banca Inicial para o valor atual e limpar o histórico de hoje?")) {
+                const novaBanca = prompt("Confirme a nova Banca Inicial:", estado.bancaAtual);
+                if (novaBanca !== null && !isNaN(parseFloat(novaBanca))) {
+                    estado.bancaInicialDia = parseFloat(novaBanca);
+                    estado.bancaAtual = parseFloat(novaBanca);
+                    estado.historico = [];
+                    document.getElementById('inputBancaInicial').value = novaBanca;
+                    salvarDados();
+                    atualizarInterface();
+                    inicializarGrafico();
+                }
+            }
+        }
+
+        function inicializarGrafico() {
+            const ctx = document.getElementById('chartEvolucao').getContext('2d');
+            if (chart) chart.destroy();
+
+            const dados = [estado.bancaInicialDia, ...estado.historico.slice().reverse().map(h => h.bancaResultante)];
+            const labels = ['Início', ...estado.historico.slice().reverse().map((_, i) => `#${i+1}`)];
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Banca (€)',
+                        data: dados,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+        }
+
+        function atualizarGrafico() {
+            if (!chart) return;
+            const dados = [estado.bancaInicialDia, ...estado.historico.slice().reverse().map(h => h.bancaResultante)];
+            const labels = ['Início', ...estado.historico.slice().reverse().map((_, i) => `#${i+1}`)];
+            chart.data.labels = labels;
+            chart.data.datasets[0].data = dados;
+            chart.update();
+        }
+    </script>
+</body>
+</html>
+        
