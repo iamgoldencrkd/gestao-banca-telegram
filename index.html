@@ -378,7 +378,18 @@
 
             <div class="card">
                 <h2>Registar Nova Aposta</h2>
+                
                 <div class="form-group">
+                    <label>Modo de Entrada da Aposta</label>
+                    <select id="selectModoEntrada" onchange="alternarModoEntrada()">
+                        <option value="nivel">Selecionar por Nível (2%, 4%, 7%)</option>
+                        <option value="pct">Percentagem Personalizada (%)</option>
+                        <option value="valor">Valor Exato em Euros (€)</option>
+                    </select>
+                </div>
+
+                <!-- CAMPO 1: SELEÇÃO POR NÍVEL -->
+                <div id="grupoNivel" class="form-group">
                     <label>Nível de Stake</label>
                     <select id="selectNivel" onchange="atualizarValorSugerido()">
                         <option value="0.02">Nível 1 (2%)</option>
@@ -386,16 +397,24 @@
                         <option value="0.07">Nível 3 (7%)</option>
                     </select>
                 </div>
+
+                <!-- CAMPO 2: PERCENTAGEM PERSONALIZADA -->
+                <div id="grupoPctCustom" class="form-group" style="display: none;">
+                    <label>Percentagem da Banca (%)</label>
+                    <input type="number" id="inputPctCustom" placeholder="Ex: 10 ou 15" step="0.5" min="0.1" oninput="calcularValorPorPctCustom()">
+                </div>
+
                 <div class="grid-2">
                     <div class="form-group">
-                        <label>Valor (€)</label>
-                        <input type="number" id="inputValor" placeholder="2.00" step="0.01">
+                        <label>Valor da Aposta (€)</label>
+                        <input type="number" id="inputValor" placeholder="2.00" step="0.01" oninput="sincronizarValorManualmente()">
                     </div>
                     <div class="form-group">
                         <label>Odd de Entrada</label>
                         <input type="number" id="inputOdd" placeholder="1.85" step="0.01">
                     </div>
                 </div>
+
                 <div class="grid-2">
                     <button class="btn btn-green" onclick="registrarAposta('GREEN')">GREEN 🟢</button>
                     <button class="btn btn-red" onclick="registrarAposta('RED')">RED 🔴</button>
@@ -537,7 +556,7 @@
             tg.ready();
         }
 
-        // Estado da Aplicação com valor inicial de 100€
+        // Estado da Aplicação com valor inicial garantido de 100€
         let estado = {
             bancaInicialDia: 100,
             bancaAtual: 100,
@@ -549,27 +568,57 @@
 
         let chart;
 
+        // Alternar modo de inserção da aposta
+        function alternarModoEntrada() {
+            const modo = document.getElementById('selectModoEntrada').value;
+            const grupoNivel = document.getElementById('grupoNivel');
+            const grupoPctCustom = document.getElementById('grupoPctCustom');
+            const inputValor = document.getElementById('inputValor');
+
+            if (modo === 'nivel') {
+                grupoNivel.style.display = 'block';
+                grupoPctCustom.style.display = 'none';
+                inputValor.readOnly = false;
+                atualizarValorSugerido();
+            } else if (modo === 'pct') {
+                grupoNivel.style.display = 'none';
+                grupoPctCustom.style.display = 'block';
+                inputValor.readOnly = false;
+                calcularValorPorPctCustom();
+            } else if (modo === 'valor') {
+                grupoNivel.style.display = 'none';
+                grupoPctCustom.style.display = 'none';
+                inputValor.readOnly = false;
+            }
+        }
+
+        function calcularValorPorPctCustom() {
+            const pct = parseFloat(document.getElementById('inputPctCustom').value);
+            if (!isNaN(pct) && pct > 0) {
+                const val = (estado.bancaAtual * (pct / 100)).toFixed(2);
+                document.getElementById('inputValor').value = val;
+                document.getElementById('calcStake').value = val;
+            }
+        }
+
+        function sincronizarValorManualmente() {
+            const val = document.getElementById('inputValor').value;
+            document.getElementById('calcStake').value = val;
+        }
+
         // Função de troca de abas otimizada para Telegram
         function ativarAba(tabName) {
             const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(el => {
-                el.classList.remove('active');
-            });
+            contents.forEach(el => el.classList.remove('active'));
 
             const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(el => {
-                el.classList.remove('active');
-            });
+            navItems.forEach(el => el.classList.remove('active'));
 
             const targetContent = document.getElementById('tab-' + tabName);
-            if (targetContent) {
-                targetContent.classList.add('active');
-            }
+            if (targetContent) targetContent.classList.add('active');
 
             const targetNav = document.querySelector(`.nav-item[data-tab="${tabName}"]`);
-            if (targetNav) {
-                targetNav.classList.add('active');
-            }
+            if (targetNav) targetNav.classList.add('active');
 
             if (tg && tg.HapticFeedback) {
                 tg.HapticFeedback.impactOccurred('light');
@@ -599,7 +648,7 @@
             carregarDados();
         });
 
-        // Calculadora de Exit Odds (5% ou personalizado)
+        // Calculadora de Exit Odds
         function calcularExitOdd() {
             const stake = parseFloat(document.getElementById('calcStake').value) || parseFloat(document.getElementById('inputValor').value) || 2;
             const oddEntrada = parseFloat(document.getElementById('calcOddEntrada').value) || 2.0;
@@ -700,10 +749,13 @@
         }
 
         function atualizarValorSugerido() {
-            const pct = parseFloat(document.getElementById('selectNivel').value);
-            const val = (estado.bancaAtual * pct).toFixed(2);
-            document.getElementById('inputValor').value = val;
-            document.getElementById('calcStake').value = val;
+            const modo = document.getElementById('selectModoEntrada').value;
+            if (modo === 'nivel') {
+                const pct = parseFloat(document.getElementById('selectNivel').value);
+                const val = (estado.bancaAtual * pct).toFixed(2);
+                document.getElementById('inputValor').value = val;
+                document.getElementById('calcStake').value = val;
+            }
         }
 
         function verificarAlertas(valorMeta, valorStop) {
@@ -885,4 +937,3 @@
     </script>
 </body>
 </html>
-        
