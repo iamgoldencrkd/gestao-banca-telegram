@@ -161,7 +161,7 @@
             margin-bottom: 4px;
         }
 
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 12px;
             border-radius: 8px;
@@ -172,7 +172,7 @@
             outline: none;
         }
 
-        input:focus, select:focus {
+        input:focus, select:focus, textarea:focus {
             border-color: var(--accent-color);
         }
 
@@ -219,7 +219,7 @@
             color: var(--hint-color);
             text-decoration: none;
             font-size: 0.7rem;
-            width: 25%;
+            width: 20%;
             height: 100%;
             cursor: pointer;
             user-select: none;
@@ -310,6 +310,42 @@
             font-weight: 800;
             color: var(--green-success);
         }
+
+        .opp-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(30, 41, 59, 0.9) 100%);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .opp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .opp-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-color);
+        }
+
+        .opp-date {
+            font-size: 0.75rem;
+            color: var(--hint-color);
+        }
+
+        .opp-badge {
+            background-color: var(--accent-color);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -388,7 +424,6 @@
                     </select>
                 </div>
 
-                <!-- CAMPO 1: SELEÇÃO POR NÍVEL -->
                 <div id="grupoNivel" class="form-group">
                     <label>Nível de Stake</label>
                     <select id="selectNivel" onchange="atualizarValorSugerido()">
@@ -398,7 +433,6 @@
                     </select>
                 </div>
 
-                <!-- CAMPO 2: PERCENTAGEM PERSONALIZADA -->
                 <div id="grupoPctCustom" class="form-group" style="display: none;">
                     <label>Percentagem da Banca (%)</label>
                     <input type="number" id="inputPctCustom" placeholder="Ex: 10 ou 15" step="0.5" min="0.1" oninput="calcularValorPorPctCustom()">
@@ -432,7 +466,21 @@
 
         </div>
 
-        <!-- ABA 2: CALCULADORA DE SAÍDA (EXIT ODDS) -->
+        <!-- ABA 2: OPORTUNIDADES DO DIA (NOTIFICAÇÕES VIP) -->
+        <div id="tab-oportunidades" class="tab-content">
+            <div class="card">
+                <h2>🔥 Oportunidades Recomendadas</h2>
+                <p style="font-size: 0.8rem; color: var(--hint-color); margin-bottom: 12px;">
+                    Dicas e sinais de apostas enviadas diretamente pelo Administrador VIP.
+                </p>
+                
+                <div id="listaOportunidades">
+                    <!-- Oportunidades renderizadas dinamicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 3: CALCULADORA DE SAÍDA (EXIT ODDS) -->
         <div id="tab-calc" class="tab-content">
             <div class="card">
                 <h2>Calculadora de Odd de Saída</h2>
@@ -466,7 +514,7 @@
             </div>
         </div>
 
-        <!-- ABA 3: DIÁRIO DE APOSTAS -->
+        <!-- ABA 4: DIÁRIO DE APOSTAS -->
         <div id="tab-diario" class="tab-content">
             <div class="card">
                 <h2>Resumo da Sessão</h2>
@@ -494,35 +542,44 @@
             </div>
         </div>
 
-        <!-- ABA 4: PROJEÇÃO 30 DIAS -->
-        <div id="tab-projecao" class="tab-content">
-            <div class="card">
-                <h2>Simulador de 30 Dias</h2>
-                
-                <div class="toggle-container">
-                    <div id="toggleComposto" class="toggle-btn active" onclick="setModoJuros(true)">Juros Compostos</div>
-                    <div id="toggleSimples" class="toggle-btn" onclick="setModoJuros(false)">Lucro Fixo</div>
-                </div>
-
-                <p style="font-size: 0.8rem; color: var(--hint-color); margin-bottom: 12px;" id="descSimulador">
-                    Cálculo acumulado reinvestindo o lucro com meta de <b id="metaSimuladorText">10%</b>/dia.
+        <!-- ABA 5: PAINEL DE ADMIN (APENAS ADMINISTRADOR) -->
+        <div id="tab-admin" class="tab-content">
+            <div class="card" style="border: 1px solid var(--yellow-warning);">
+                <h2 style="color: var(--yellow-warning);">⚡ Painel de Administrador</h2>
+                <p style="font-size: 0.8rem; color: var(--hint-color); margin-bottom: 12px;">
+                    Publique oportunidades para todos os membros que usam a Web App.
                 </p>
 
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Dia</th>
-                                <th>Banca Inicial</th>
-                                <th>Lucro (<span class="meta-pct-label">10</span>%)</th>
-                                <th>Banca Final</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabelaProjecao">
-                            <!-- Preenchido dinamicamente via JS -->
-                        </tbody>
-                    </table>
+                <div class="form-group">
+                    <label>Título / Desporto</label>
+                    <input type="text" id="adminTitulo" placeholder="Ex: Ténis - Alcaraz vs Medvedev">
                 </div>
+
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Odd Recomendada</label>
+                        <input type="number" id="adminOdd" placeholder="Ex: 1.23" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Stake</label>
+                        <select id="adminTipoStake" onchange="alternarAdminStakeInput()">
+                            <option value="pct">% da Banca</option>
+                            <option value="valor">Valor Exato (€)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label id="lblAdminStakeVal">Recomendação (% da Banca)</label>
+                    <input type="number" id="adminStakeVal" placeholder="Ex: 5" step="0.5">
+                </div>
+
+                <div class="form-group">
+                    <label>Notas / Análise Rápidas</label>
+                    <textarea id="adminNotas" rows="2" placeholder="Ex: Entrada com grande valor para o mercado de sets."></textarea>
+                </div>
+
+                <button class="btn btn-green" onclick="publicarOportunidadeAdmin()">🚀 Publicar Oportunidade VIP</button>
             </div>
         </div>
 
@@ -534,41 +591,167 @@
             <div class="nav-icon">📊</div>
             <div>Painel</div>
         </div>
+        <div class="nav-item" data-tab="oportunidades">
+            <div class="nav-icon">🔥</div>
+            <div>Dicas VIP</div>
+        </div>
         <div class="nav-item" data-tab="calc">
             <div class="nav-icon">🧮</div>
-            <div>Calculadora</div>
+            <div>Calc</div>
         </div>
         <div class="nav-item" data-tab="diario">
             <div class="nav-icon">📋</div>
             <div>Diário</div>
         </div>
-        <div class="nav-item" data-tab="projecao">
-            <div class="nav-icon">🚀</div>
-            <div>30 Dias</div>
+        <div id="navAdminItem" class="nav-item" data-tab="admin" style="display: none; color: var(--yellow-warning);">
+            <div class="nav-icon">👑</div>
+            <div>Admin</div>
         </div>
     </nav>
 
     <script>
-        // Inicializar Telegram WebApp
+        // ID do Administrador no Telegram (substituir se quiser restringir o acesso)
+        const ADMIN_TELEGRAM_IDS = []; 
+
         let tg = window.Telegram ? window.Telegram.WebApp : null;
+        let userId = null;
+        let isAdmin = false;
+
         if(tg) {
             tg.expand();
             tg.ready();
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                userId = tg.initDataUnsafe.user.id;
+            }
         }
 
-        // Estado da Aplicação com valor inicial garantido de 100€
         let estado = {
             bancaInicialDia: 100,
             bancaAtual: 100,
             metaPct: 10,
             stopPct: 20,
             historico: [],
-            jurosCompostos: true
+            jurosCompostos: true,
+            oportunidades: [
+                {
+                    id: 1,
+                    data: "Hoje",
+                    titulo: "Ténis - Roland Garros",
+                    odd: 1.23,
+                    tipoStake: "pct",
+                    stakeVal: 5,
+                    notas: "Entrada recomendada no vencedor do encontro."
+                }
+            ]
         };
 
         let chart;
 
-        // Alternar modo de inserção da aposta
+        function verificarPermissaoAdmin() {
+            if (ADMIN_TELEGRAM_IDS.length === 0 || (userId && ADMIN_TELEGRAM_IDS.includes(userId))) {
+                isAdmin = true;
+                document.getElementById('navAdminItem').style.display = 'flex';
+            }
+        }
+
+        function alternarAdminStakeInput() {
+            const tipo = document.getElementById('adminTipoStake').value;
+            const lbl = document.getElementById('lblAdminStakeVal');
+            lbl.innerText = tipo === 'pct' ? 'Recomendação (% da Banca)' : 'Recomendação (Valor Exato em €)';
+        }
+
+        function publicarOportunidadeAdmin() {
+            const titulo = document.getElementById('adminTitulo').value;
+            const odd = parseFloat(document.getElementById('adminOdd').value);
+            const tipoStake = document.getElementById('adminTipoStake').value;
+            const stakeVal = parseFloat(document.getElementById('adminStakeVal').value);
+            const notas = document.getElementById('adminNotas').value;
+
+            if (!titulo || isNaN(odd) || isNaN(stakeVal)) {
+                alert("Preencha o título, a odd e a recomendação de stake.");
+                return;
+            }
+
+            const novaOpp = {
+                id: Date.now(),
+                data: "Hoje (" + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ")",
+                titulo: titulo,
+                odd: odd,
+                tipoStake: tipoStake,
+                stakeVal: stakeVal,
+                notas: notas
+            };
+
+            estado.oportunidades.unshift(novaOpp);
+            salvarDados();
+            renderizarOportunidades();
+
+            document.getElementById('adminTitulo').value = '';
+            document.getElementById('adminOdd').value = '';
+            document.getElementById('adminStakeVal').value = '';
+            document.getElementById('adminNotas').value = '';
+
+            alert("Oportunidade VIP publicada com sucesso!");
+            ativarAba('oportunidades');
+        }
+
+        function renderizarOportunidades() {
+            const container = document.getElementById('listaOportunidades');
+            if (!estado.oportunidades || estado.oportunidades.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--hint-color); padding: 15px;">Sem oportunidades registadas para hoje.</p>';
+                return;
+            }
+
+            container.innerHTML = estado.oportunidades.map(opp => {
+                let sugeridoEur = 0;
+                if (opp.tipoStake === 'pct') {
+                    sugeridoEur = (estado.bancaAtual * (opp.stakeVal / 100)).toFixed(2);
+                } else {
+                    sugeridoEur = opp.stakeVal.toFixed(2);
+                }
+
+                return `
+                    <div class="opp-card">
+                        <div class="opp-header">
+                            <span class="opp-badge">OPORTUNIDADE DIA</span>
+                            <span class="opp-date">${opp.data}</span>
+                        </div>
+                        <div class="opp-title">${opp.titulo}</div>
+                        <div class="grid-2" style="margin: 10px 0;">
+                            <div class="stat-box blue">
+                                <div class="stat-label">ODD RECOMENDADA</div>
+                                <div class="stat-val" style="color:var(--accent-color)">@${opp.odd.toFixed(2)}</div>
+                            </div>
+                            <div class="stat-box green">
+                                <div class="stat-label">SUGESTÃO DE STAKE</div>
+                                <div class="stat-val" style="color:var(--green-success)">
+                                    ${opp.tipoStake === 'pct' ? opp.stakeVal + '% (' + sugeridoEur + '€)' : opp.stakeVal + ' €'}
+                                </div>
+                            </div>
+                        </div>
+                        ${opp.notas ? `<p style="font-size: 0.8rem; color: var(--hint-color); margin-bottom: 10px;">💡 <i>${opp.notas}</i></p>` : ''}
+                        <button class="btn btn-secondary" onclick="usarDicaVIP(${opp.odd}, ${sugeridoEur})" style="padding: 8px; font-size: 0.8rem;">
+                            📥 Usar esta Dica no Registar Aposta
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function usarDicaVIP(odd, valor) {
+            document.getElementById('selectModoEntrada').value = 'valor';
+            alternarModoEntrada();
+            document.getElementById('inputValor').value = valor;
+            document.getElementById('inputOdd').value = odd;
+            document.getElementById('calcStake').value = valor;
+            document.getElementById('calcOddEntrada').value = odd;
+
+            ativarAba('dashboard');
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+        }
+
         function alternarModoEntrada() {
             const modo = document.getElementById('selectModoEntrada').value;
             const grupoNivel = document.getElementById('grupoNivel');
@@ -606,7 +789,6 @@
             document.getElementById('calcStake').value = val;
         }
 
-        // Função de troca de abas otimizada para Telegram
         function ativarAba(tabName) {
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(el => el.classList.remove('active'));
@@ -624,10 +806,10 @@
                 tg.HapticFeedback.impactOccurred('light');
             }
 
-            if (tabName === 'projecao') {
-                gerarTabelaProjecao();
-            } else if (tabName === 'calc') {
+            if (tabName === 'calc') {
                 calcularExitOdd();
+            } else if (tabName === 'oportunidades') {
+                renderizarOportunidades();
             }
         }
 
@@ -645,10 +827,10 @@
                 }, {passive: false});
             });
 
+            verificarPermissaoAdmin();
             carregarDados();
         });
 
-        // Calculadora de Exit Odds
         function calcularExitOdd() {
             const stake = parseFloat(document.getElementById('calcStake').value) || parseFloat(document.getElementById('inputValor').value) || 2;
             const oddEntrada = parseFloat(document.getElementById('calcOddEntrada').value) || 2.0;
@@ -678,13 +860,14 @@
         }
 
         function carregarDados() {
-            const saved = localStorage.getItem('gestao_banca_data');
+            const saved = localStorage.getItem('gestao_banca_vip_full');
             if (saved) {
                 try {
                     estado = JSON.parse(saved);
                     if (!estado.bancaInicialDia) estado.bancaInicialDia = 100;
                     if (!estado.metaPct) estado.metaPct = 10;
                     if (!estado.stopPct) estado.stopPct = 20;
+                    if (!estado.oportunidades) estado.oportunidades = [];
                 } catch(e) {
                     console.error("Erro ao carregar dados", e);
                 }
@@ -695,11 +878,12 @@
             document.getElementById('inputStopPct').value = estado.stopPct;
 
             atualizarInterface();
+            renderizarOportunidades();
             inicializarGrafico();
         }
 
         function salvarDados() {
-            localStorage.setItem('gestao_banca_data', JSON.stringify(estado));
+            localStorage.setItem('gestao_banca_vip_full', JSON.stringify(estado));
         }
 
         function salvarParametros() {
@@ -836,47 +1020,6 @@
                     </div>
                 </li>
             `).join('');
-        }
-
-        function setModoJuros(composto) {
-            estado.jurosCompostos = composto;
-            document.getElementById('toggleComposto').className = composto ? 'toggle-btn active' : 'toggle-btn';
-            document.getElementById('toggleSimples').className = !composto ? 'toggle-btn active' : 'toggle-btn';
-            
-            document.getElementById('descSimulador').innerHTML = composto 
-                ? `Cálculo acumulado reinvestindo o lucro com meta de <b>${estado.metaPct}%</b>/dia.`
-                : `Cálculo mantendo a banca base e retirando o lucro de <b>${estado.metaPct}%</b>/dia.`;
-
-            gerarTabelaProjecao();
-        }
-
-        function gerarTabelaProjecao() {
-            const tbody = document.getElementById('tabelaProjecao');
-            document.getElementById('metaSimuladorText').innerText = estado.metaPct + '%';
-            
-            let html = '';
-            let banca = estado.bancaAtual;
-            const metaDecimal = estado.metaPct / 100;
-
-            for (let dia = 1; dia <= 30; dia++) {
-                let lucro = banca * metaDecimal;
-                let bancaFinal = estado.jurosCompostos ? (banca + lucro) : banca;
-
-                html += `
-                    <tr>
-                        <td><b>${dia}</b></td>
-                        <td>${banca.toFixed(2)} €</td>
-                        <td style="color: var(--green-success); font-weight: 600;">+${lucro.toFixed(2)} €</td>
-                        <td style="font-weight: 700;">${(estado.jurosCompostos ? bancaFinal : banca + (lucro * dia)).toFixed(2)} €</td>
-                    </tr>
-                `;
-
-                if (estado.jurosCompostos) {
-                    banca = bancaFinal;
-                }
-            }
-
-            tbody.innerHTML = html;
         }
 
         function reiniciarSessao() {
